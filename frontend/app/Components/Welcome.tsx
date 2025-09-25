@@ -60,10 +60,10 @@ const Welcome = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 animate-fade-in-up">
-            <button className="group relative bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 transition-all duration-300 ease-out text-white font-semibold py-4 px-8 rounded-full cursor-pointer shadow-2xl hover:shadow-violet-500/25 hover:scale-105">
+            <Link href="/register" className="group relative bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 transition-all duration-300 ease-out text-white font-semibold py-4 px-8 rounded-full cursor-pointer shadow-2xl hover:shadow-violet-500/25 hover:scale-105">
               <span className="relative z-10">Get Started Free</span>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-            </button>
+            </Link>
 
             <button className="group bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/20 hover:border-white/30 transition-all duration-300 ease-out text-white font-semibold py-4 px-8 rounded-full cursor-pointer hover:scale-105">
               <span className="flex items-center gap-2">
