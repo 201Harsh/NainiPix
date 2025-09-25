@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,6 +20,12 @@ export const metadata: Metadata = {
   ],
 };
 
+const inter = localFont({
+  src: "../public/fonts/ProximaNova-Regular.otf",
+  weight: "400",
+  variable: "--font-inter",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,7 +36,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/img/favicon.png" />
       </head>
-      <body>{children}</body>
+      <body className={`${inter.variable}`}>{children}</body>
     </html>
   );
 }
