@@ -6,6 +6,29 @@ module.exports.registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    const allowedDomains = [
+      "gmail.com",
+      "yahoo.com",
+      "outlook.com",
+      "hotmail.com",
+      "icloud.com",
+      "protonmail.com",
+      "aol.com",
+      "mail.com",
+      "zoho.com",
+      "yandex.com",
+    ];
+
+    const validateEmail = (email) => {
+      const domain = email.split("@")[1]?.toLowerCase();
+      if (!allowedDomains.includes(domain)) {
+        throw new Error("Enter Valid Email Address");
+      }
+      return true;
+    };
+
+    validateEmail(email);
+
     if (!name || !email || !password) {
       throw new Error("All fields are required");
     }
