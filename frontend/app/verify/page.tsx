@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const page = () => {
@@ -193,10 +194,10 @@ const page = () => {
 
             {/* Back Link */}
             <div className="text-center mt-6">
-              <button className="text-gray-400 hover:text-gray-300 transition-colors duration-200 flex items-center justify-center space-x-2 mx-auto">
+              <Link href="/register" className="text-gray-400 hover:text-gray-300 transition-colors duration-200 flex items-center justify-center space-x-2 mx-auto">
                 <span>←</span>
                 <span>Back to registration</span>
-              </button>
+              </Link>
             </div>
           </div>
 
