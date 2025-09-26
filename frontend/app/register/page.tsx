@@ -1,8 +1,39 @@
+"use client";
+import AxiosInstance from "@/config/Axios";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const page = () => {
+  const [name, setname] = useState<string>("");
+  const [email, setemail] = useState<string>("");
+  const [password, setpassword] = useState<string>("");
+  const [isSubmitting, setisSubmitting] = useState<boolean>(false);
+
+  const Router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setisSubmitting(true);
+      const response = await AxiosInstance.post("/users/register", {
+        name,
+        email,
+        password,
+      });
+      console.log(response);
+      setname("");
+      setemail("");
+      setpassword("");
+      Router.push("/verify")
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setisSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full bg-gray-900 relative overflow-hidden">
       {/* Background Elements */}
@@ -47,7 +78,7 @@ const page = () => {
               </p>
             </div>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Field */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">
@@ -57,6 +88,9 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-violet-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
+                      required
+                      value={name}
+                      onChange={(e) => setname(e.target.value)}
                       type="text"
                       placeholder="Enter your full name"
                       className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all duration-200"
@@ -77,6 +111,9 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-sky-600 to-blue-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
+                      required
+                      value={email}
+                      onChange={(e) => setemail(e.target.value)}
                       type="email"
                       placeholder="Enter your email"
                       className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-transparent transition-all duration-200"
@@ -97,6 +134,9 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
+                      required
+                      value={password}
+                      onChange={(e) => setpassword(e.target.value)}
                       type="password"
                       placeholder="Create a strong password"
                       className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent transition-all duration-200"
@@ -111,6 +151,7 @@ const page = () => {
               {/* Terms Checkbox */}
               <div className="flex items-center space-x-3">
                 <input
+                  required
                   type="checkbox"
                   id="terms"
                   className="w-4 h-4 text-violet-600 bg-gray-800 border-white/10 rounded focus:ring-violet-500 focus:ring-offset-gray-900"
@@ -132,7 +173,15 @@ const page = () => {
                 type="submit"
                 className="w-full group relative bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 transition-all duration-300 ease-out text-white font-semibold py-4 px-6 rounded-lg cursor-pointer shadow-2xl hover:shadow-violet-500/25 hover:scale-[1.02]"
               >
-                <span className="relative z-10">Create Account</span>
+                <span className="relative z-10">
+                  {isSubmitting ? (
+                    <span className="animate-pulse font-bold">
+                      Creating Account...
+                    </span>
+                  ) : (
+                    "Create Account"
+                  )}
+                </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
               </button>
             </form>
@@ -141,7 +190,10 @@ const page = () => {
             <div className="text-center mt-6">
               <p className="text-gray-400">
                 Already have an account?{" "}
-                <Link href="/login"className="text-violet-400 hover:text-violet-300 cursor-pointer font-semibold">
+                <Link
+                  href="/login"
+                  className="text-violet-400 hover:text-violet-300 cursor-pointer font-semibold"
+                >
                   Login here
                 </Link>
               </p>
