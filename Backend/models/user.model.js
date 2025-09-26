@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
   },
+  NaniCredits: {
+    type: Number,
+    default: 5,
+  },
 });
 
 UserSchema.methods.JwtGen = function () {
