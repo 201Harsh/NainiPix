@@ -59,7 +59,7 @@ module.exports.registerUser = async (req, res) => {
       throw new Error("Something went wrong");
     }
 
-    res.status(200).json({
+    res.status(201).json({
       message: "OTP sent successfully",
       tempuser,
     });
