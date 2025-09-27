@@ -1,12 +1,92 @@
 "use client";
+import AxiosInstance from "@/config/Axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Flip, Slide, toast, Zoom } from "react-toastify";
 
 const page = () => {
+  const [email, setemail] = useState<string>("");
+  const [password, setpassword] = useState<string>("");
   const [isSubmitting, setisSubmitting] = useState<boolean>(false);
   const [showPassword, setshowPassword] = useState<boolean>(false);
+
+  const Router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setisSubmitting(true);
+      const response = await AxiosInstance.post("/users/login", {
+        email,
+        password,
+      });
+      if (response.status === 200) {
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 3500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Flip,
+        });
+      }
+      localStorage.setItem("email", response.data.User.email);
+      localStorage.setItem("token", response.data.token);
+      setemail("");
+      setpassword("");
+      Router.push("/templates");
+    } catch (error: any) {
+      const errors = error.response?.data?.errors;
+
+      toast.error(error.response?.data, {
+        position: "top-right",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Slide,
+      });
+      toast.error(
+        error.response?.data?.error ||
+          errors.forEach((e: any) => {
+            toast.error(e.msg, {
+              position: "top-right",
+              autoClose: 3500,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Zoom,
+            });
+          }),
+        {
+          position: "top-right",
+          autoClose: 3500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Zoom,
+        }
+      );
+    } finally {
+      setisSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full bg-gray-900 relative overflow-hidden">
       {/* Background Elements */}
@@ -51,7 +131,7 @@ const page = () => {
               </p>
             </div>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email Field */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">
@@ -61,6 +141,11 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-sky-600 to-blue-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
+                      id="email"
+                      name="email"
+                      required
+                      value={email}
+                      onChange={(e) => setemail(e.target.value)}
                       type="email"
                       placeholder="Enter your email"
                       className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-transparent transition-all duration-200"
@@ -81,6 +166,11 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
+                      id="password"
+                      name="password"
+                      required
+                      value={password}
+                      onChange={(e) => setpassword(e.target.value)}
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a strong password"
                       className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent transition-all duration-200"
