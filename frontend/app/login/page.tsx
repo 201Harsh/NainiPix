@@ -1,8 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const page = () => {
+  const [isSubmitting, setisSubmitting] = useState<boolean>(false);
+  const [showPassword, setshowPassword] = useState<boolean>(false);
   return (
     <div className="min-h-screen w-full bg-gray-900 relative overflow-hidden">
       {/* Background Elements */}
@@ -77,10 +81,21 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Create a strong password"
                       className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent transition-all duration-200"
                     />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-8 pr-3 flex items-center z-10"
+                      onClick={() => setshowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <FaEyeSlash className="h-5 w-5 text-gray-400" />
+                      ) : (
+                        <FaEye className="h-5 w-5 text-gray-400" />
+                      )}
+                    </button>
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                       <span className="text-gray-400">🔒</span>
                     </div>
@@ -114,8 +129,11 @@ const page = () => {
             <div className="text-center mt-6">
               <p className="text-gray-400">
                 Don't have an account?{" "}
-                <Link href="/register" className="text-violet-400 hover:text-violet-300 cursor-pointer font-semibold">
-                  Create One 
+                <Link
+                  href="/register"
+                  className="text-violet-400 hover:text-violet-300 cursor-pointer font-semibold"
+                >
+                  Create One
                 </Link>
               </p>
             </div>

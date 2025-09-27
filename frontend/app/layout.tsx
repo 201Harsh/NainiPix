@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Flip, ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "NainiPix AI",
@@ -32,11 +33,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <>
+     <ToastContainer
+        position="top-right"
+        autoClose={3500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Flip}
+      />
     <html lang="en">
       <head>
         <link rel="icon" href="/img/favicon.png" />
       </head>
       <body className={`${inter.variable}`}>{children}</body>
     </html>
+    </>
   );
 }

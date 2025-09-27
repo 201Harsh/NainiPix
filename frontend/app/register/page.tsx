@@ -4,14 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Flip, Slide, toast, Zoom } from "react-toastify";
 
 const page = () => {
   const [name, setname] = useState<string>("");
   const [email, setemail] = useState<string>("");
   const [password, setpassword] = useState<string>("");
   const [isSubmitting, setisSubmitting] = useState<boolean>(false);
+  const [showPassword, setshowPassword] = useState<boolean>(false);
 
-  const Router = useRouter()
+  const Router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,13 +25,65 @@ const page = () => {
         email,
         password,
       });
-      console.log(response);
+      if (response.status === 201) {
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 3500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Flip,
+        });
+      }
+      localStorage.setItem("email", response.data.tempuser.email);
       setname("");
       setemail("");
       setpassword("");
-      Router.push("/verify")
-    } catch (error) {
-      console.log(error);
+      Router.push("/verify");
+    } catch (error: any) {
+      const errors = error.response?.data?.errors;
+
+      toast.error(error.response?.data, {
+        position: "top-right",
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Slide,
+      });
+      toast.error(
+        error.response?.data?.error ||
+          errors.forEach((e: any) => {
+            toast.error(e.msg, {
+              position: "top-right",
+              autoClose: 3500,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Zoom,
+            });
+          }),
+        {
+          position: "top-right",
+          autoClose: 3500,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Zoom,
+        }
+      );
     } finally {
       setisSubmitting(false);
     }
@@ -137,10 +192,21 @@ const page = () => {
                       required
                       value={password}
                       onChange={(e) => setpassword(e.target.value)}
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Create a strong password"
                       className="w-full px-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent transition-all duration-200"
                     />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-8 pr-3 flex items-center z-10"
+                      onClick={() => setshowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <FaEyeSlash className="h-5 w-5 text-gray-400" />
+                      ) : (
+                        <FaEye className="h-5 w-5 text-gray-400" />
+                      )}
+                    </button>
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                       <span className="text-gray-400">🔒</span>
                     </div>
