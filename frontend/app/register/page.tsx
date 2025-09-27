@@ -143,6 +143,8 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-violet-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
+                      name="name"
+                      id="name"
                       required
                       value={name}
                       onChange={(e) => setname(e.target.value)}
@@ -166,6 +168,8 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-sky-600 to-blue-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
+                      name="email"
+                      id="email"
                       required
                       value={email}
                       onChange={(e) => setemail(e.target.value)}
@@ -189,6 +193,8 @@ const page = () => {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-600 to-green-600 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-200"></div>
                   <div className="relative">
                     <input
+                      name="password"
+                      id="password"
                       required
                       value={password}
                       onChange={(e) => setpassword(e.target.value)}
