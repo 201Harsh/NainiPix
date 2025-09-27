@@ -1,13 +1,23 @@
 "use client";
+import AxiosInstance from "@/config/Axios";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { Flip, toast } from "react-toastify";
 
 const page = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const [email, setemail] = useState("NainiPixAI@gmail.com");
+  const [email, setemail]: any = useState("NainiPixAI@gmail.com");
+
+  const Router = useRouter();
+
+  useEffect(() => {
+    const userEmail: any = localStorage.getItem("email");
+    setemail(userEmail);
+  }, []);
 
   const handleChange = (index: number, value: string) => {
     if (value.length > 1) return;
@@ -47,19 +57,44 @@ const page = () => {
     setIsSubmitting(true);
 
     const enteredOtp = otp.join("");
-    console.log("OTP Submitted:", enteredOtp);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const res: any = await AxiosInstance.post("/users/verify", {
+        email,
+        otp: enteredOtp,
+      });
 
-    setIsSubmitting(false);
-    setIsVerified(true);
-
-    // Reset after success
-    setTimeout(() => {
-      setIsVerified(false);
-      setOtp(["", "", "", ""]);
-    }, 300);
+      if (res.status === 200) {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Flip,
+        });
+        localStorage.setItem("token", res.data.token);
+        Router.push("/templates");
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Flip,
+      });
+    } finally{
+      setIsSubmitting(false);
+      setIsVerified(true);
+    }
   };
 
   const isOtpComplete = otp.every((digit) => digit !== "");
@@ -194,7 +229,10 @@ const page = () => {
 
             {/* Back Link */}
             <div className="text-center mt-6">
-              <Link href="/register" className="text-gray-400 hover:text-gray-300 transition-colors duration-200 flex items-center justify-center space-x-2 mx-auto">
+              <Link
+                href="/register"
+                className="text-gray-400 hover:text-gray-300 transition-colors duration-200 flex items-center justify-center space-x-2 mx-auto"
+              >
                 <span>←</span>
                 <span>Back to registration</span>
               </Link>
