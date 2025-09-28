@@ -59,33 +59,25 @@ const page = () => {
       image: "/img/portfolio-template.jpg",
       model: "premium",
     },
-    {
-      id: 8,
-      title: "Product Showcase",
-      description: "Elegant templates for showcasing products and services",
-      category: "Product",
-      image: "/img/product-template.jpg",
-      model: "premium",
-    },
   ];
   return (
     <>
       <Header />
-      <div className="relative w-full bg-gray-900 pt-24 min-h-screen">
+      <div className="relative w-full bg-gray-950 pt-24 min-h-screen">
         <div className="w-full px-8 py-4">
-          <div className="w-full flex bg-black p-4 items-center justify-center">
-            <h1 className="text-white text-3xl">
-              Choose Template and Start Editing/Creating
+          <div className="md:w-1/2 w-full md:mx-auto flex p-4 items-center justify-center">
+            <h1 className="text-white text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-center font-Antonio uppercase">
+              Choose <span className="text-pink-400">Template</span> and Start <span className="text-sky-500">Editing/Creating</span>
             </h1>
           </div>
           {/* Cards go here */}
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center">
+          <div className="max-w-7xl 2xl:max-w-full mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 justify-center">
               {sampleCards.map((c, idx) => {
                 return (
                   <div
                     key={idx}
-                    className="flex flex-col mt-10 overflow-hidden border border-gray-500 text-white rounded-2xl p-2"
+                    className="flex flex-col mt-10 bg-gradient-to-tl from-blue-900 to-pink-900 overflow-hidden shadow-lg shadow-pink-30 hover:scale-95 transition-all duration-150 ease-linear border border-gray-500 text-white rounded-2xl p-2"
                   >
                     {/* Image Section */}
                     <div className="rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
