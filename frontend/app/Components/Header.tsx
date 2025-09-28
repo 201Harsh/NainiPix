@@ -4,7 +4,7 @@ import { IoMdMenu } from "react-icons/io";
 
 const Header = () => {
   return (
-    <div className="w-full max-w-screen fixed top-0 z-50 backdrop-blur-lg bg-black/30">
+    <div className="w-full max-w-screen fixed top-0 z-50 backdrop-blur-sm bg-black/50">
       <div className="w-full flex items-center justify-between px-5 py-2 md:px-8 md:py-3">
         <div className="relative flex items-center space-x-0 md:space-x-2">
           <Image
