@@ -1,5 +1,7 @@
+'use client'
 import React from "react";
 import Header from "../Components/Header";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const sampleCards = [
@@ -60,6 +62,14 @@ const page = () => {
       model: "premium",
     },
   ];
+
+const Router = useRouter();
+
+  const handleRouting = (id: any) => {
+    Router.push(`/templates/${id}`);
+  };
+
+  
   return (
     <>
       <Header />
@@ -67,7 +77,8 @@ const page = () => {
         <div className="w-full px-8 py-4">
           <div className="md:w-1/2 w-full md:mx-auto flex p-4 items-center justify-center">
             <h1 className="text-white text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-center font-Antonio uppercase">
-              Choose <span className="text-pink-400">Template</span> and Start <span className="text-sky-500">Editing/Creating</span>
+              Choose <span className="text-pink-400">Template</span> and Start{" "}
+              <span className="text-sky-500">Editing/Creating</span>
             </h1>
           </div>
           {/* Cards go here */}
@@ -77,7 +88,8 @@ const page = () => {
                 return (
                   <div
                     key={idx}
-                    className="flex flex-col mt-10 bg-gradient-to-tl from-blue-900 to-pink-900 overflow-hidden shadow-lg shadow-pink-30 hover:scale-95 transition-all duration-150 ease-linear border border-gray-500 text-white rounded-2xl p-2"
+                    onClick={() => handleRouting(c.id)}
+                    className="flex cursor-pointer flex-col mt-10 bg-gradient-to-tl from-blue-900 to-pink-900 overflow-hidden shadow-lg shadow-pink-30 hover:scale-95 transition-all duration-150 ease-linear border border-gray-500 text-white rounded-2xl p-2"
                   >
                     {/* Image Section */}
                     <div className="rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
