@@ -85,7 +85,7 @@ const page = () => {
                 return (
                   <div
                     key={idx}
-                    className="flex flex-col mt-10 bg-red-300 overflow-hidden"
+                    className="flex flex-col mt-10 overflow-hidden border border-gray-500 text-white rounded-2xl p-2"
                   >
                     {/* Image Section */}
                     <div className="rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
@@ -94,14 +94,14 @@ const page = () => {
                     {/* Text Section */}
                     <div className="rounded-lg shadow-md p-4">
                       <h2 className="text-xl font-semibold mb-2">{c.title}</h2>
-                      <p className="text-gray-600 mb-2">{c.description}</p>
-                      <p className="text-gray-600 mb-2">
+                      <p className="text-gray-300 mb-2">{c.description}</p>
+                      <p className="text-gray-300 mb-2">
                         Category: {c.category}
                       </p>
                     </div>
                     {/* Model Section */}
                     <div className="rounded-lg shadow-md p-4">
-                      <p className="text-gray-600 mb-2">Model: {c.model}</p>
+                      <p className="text-gray-300 mb-2">Model: {c.model}</p>
                     </div>
                     {/* Button Section */}
                     <div className="rounded-lg shadow-md p-4">
