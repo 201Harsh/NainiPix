@@ -62,7 +62,7 @@ module.exports.getAllTemplates = async (req, res) => {
   try {
     const Templates = await TemplateModel.find();
 
-    if (!Templates) {
+    if (!Templates || Templates.length === 0) {
       throw new Error("No Templates found");
     }
 

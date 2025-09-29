@@ -16,6 +16,7 @@ interface Template {
 }
 const page = () => {
   const [Templates, setTemplates] = useState<Template[]>([]);
+  const [Error, setError] = useState("")
   const Router = useRouter();
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const page = () => {
           setTemplates(res.data.Templates);
         }
       } catch (error: any) {
+        setError(error.response.data.error)
         toast.error(error.response.data.error, {
           position: "top-right",
           autoClose: 3000,
@@ -53,13 +55,14 @@ const page = () => {
       <div className="relative w-full bg-gray-950 pt-24 min-h-screen">
         <div className="w-full px-8 py-4">
           <div className="md:w-1/2 w-full md:mx-auto flex p-4 items-center justify-center">
-            <h1 className="text-white text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-center font-Antonio uppercase">
+            <h1 className="text-white text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-center font-Antonio capitalize">
               Choose <span className="text-pink-400">Template</span> and Start{" "}
               <span className="text-sky-500">Editing/Creating</span>
             </h1>
           </div>
           {/* Cards go here */}
           <div className="max-w-7xl 2xl:max-w-full mx-auto">
+            {Error && <h1 className="text-white text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-center font-Antonio capitalize mt-44">{Error}</h1>}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 justify-center">
               {Templates.map((c, idx) => {
                 const model_check =
