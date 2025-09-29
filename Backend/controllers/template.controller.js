@@ -43,3 +43,5 @@ module.exports.CreateTemplate = async (req, res) => {
     });
   }
 };
+
+module.exports.getAllTemplates = async (req, res) => {}
