@@ -139,3 +139,24 @@ module.exports.loginUser = async (req, res) => {
     });
   }
 };
+
+module.exports.getUserProfile = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    res.status(200).json({
+      message: "User profile fetched successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
