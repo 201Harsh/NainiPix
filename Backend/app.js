@@ -7,6 +7,8 @@ const ConnectToDb = require("./config/db");
 ConnectToDb();
 
 const USerRouter = require("./routes/user.route");
+const TemplateRouter = require("./routes/template.route");
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,5 +21,6 @@ app.use(
 app.use(CookieParser());
 
 app.use("/users", USerRouter);
+app.use("/template", TemplateRouter);
 
 module.exports = app;
