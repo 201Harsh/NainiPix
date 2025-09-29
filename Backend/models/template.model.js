@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const TemplatesSchema = new mongoose.Schema({
+const TemplateSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -40,7 +40,7 @@ const TemplatesSchema = new mongoose.Schema({
   ],
 });
 
-const Templates = mongoose.model("Templates", TemplatesSchema);
+const Template = mongoose.model("Template", TemplateSchema);
 
-module.exports = Templates;
+module.exports = Template;
 
