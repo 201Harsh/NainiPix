@@ -6,6 +6,10 @@ const TemplateSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
   desc: {
     type: String,
     required: true,
@@ -43,4 +47,3 @@ const TemplateSchema = new mongoose.Schema({
 const Template = mongoose.model("Template", TemplateSchema);
 
 module.exports = Template;
-

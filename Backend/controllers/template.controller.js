@@ -3,7 +3,7 @@ const TemplateService = require("../services/template.service");
 
 module.exports.CreateTemplate = async (req, res) => {
   try {
-    const { name, desc, thumbnail, category, prompt, explainer, example } =
+    const { name, desc, title ,thumbnail, category, prompt, explainer, example } =
       req.body;
 
     if (
@@ -20,6 +20,7 @@ module.exports.CreateTemplate = async (req, res) => {
 
     const Istemplate = await TemplateModel.findOne({
       name,
+      title,
       desc,
       thumbnail,
       category,
@@ -33,6 +34,7 @@ module.exports.CreateTemplate = async (req, res) => {
 
     const template = await TemplateService.CreateTemplate({
       name,
+      title,
       desc,
       thumbnail,
       category,

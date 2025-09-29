@@ -2,6 +2,7 @@ const TemplateModel = require("../models/template.model");
 
 module.exports.CreateTemplate = async ({
   name,
+  title,
   desc,
   thumbnail,
   category,
@@ -11,6 +12,7 @@ module.exports.CreateTemplate = async ({
 }) => {
   if (
     !name ||
+    !title ||
     !desc ||
     !thumbnail ||
     !category ||
@@ -23,6 +25,7 @@ module.exports.CreateTemplate = async ({
 
   const template = TemplateModel.create({
     name,
+    title,
     desc,
     thumbnail,
     category,
