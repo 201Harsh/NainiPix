@@ -79,7 +79,7 @@ const Welcome = () => {
           <h1 className="md:mt-14 mt-5 font-Antonio capitalize font-bold text-3xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-sky-300 to-violet-400 animate-fade-in">
             see all Features
           </h1>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl w-full">
             {[
               {
                 icon: "✨",
