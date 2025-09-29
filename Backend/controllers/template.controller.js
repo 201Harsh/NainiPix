@@ -25,7 +25,6 @@ module.exports.CreateTemplate = async (req, res) => {
       category,
       prompt,
       explainer,
-      example,
     });
 
     if (Istemplate) {
