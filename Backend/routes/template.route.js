@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const TemplateController = require("../controllers/template.controller");
 const { body } = require("express-validator");
+const ValidateMiddleware = require("../middlewares/validate.middleware");
+const AuthMiddleware = require("../middlewares/user.middleware");
 
 router.post(
   "/create",
@@ -25,7 +27,11 @@ router.post(
       .isLength({ min: 3 })
       .withMessage("Example should be at least 3 characters long"),
   ],
+  ValidateMiddleware.validateData,
+  AuthMiddleware.authUser,
   TemplateController.CreateTemplate
 );
+
+router.get("/getAll", TemplateController.getAllTemplates);
 
 module.exports = router;

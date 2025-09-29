@@ -18,6 +18,20 @@ module.exports.CreateTemplate = async (req, res) => {
       throw new Error("All fields are required");
     }
 
+    const Istemplate = await TemplateModel.findOne({
+      name,
+      desc,
+      thumbnail,
+      category,
+      prompt,
+      explainer,
+      example,
+    });
+
+    if (Istemplate) {
+      throw new Error("Template already exists");
+    }
+
     const template = await TemplateService.CreateTemplate({
       name,
       desc,
@@ -36,7 +50,6 @@ module.exports.CreateTemplate = async (req, res) => {
       message: "Template created successfully",
       template,
     });
-
   } catch (error) {
     res.status(400).json({
       error: error.message,
@@ -44,4 +57,21 @@ module.exports.CreateTemplate = async (req, res) => {
   }
 };
 
-module.exports.getAllTemplates = async (req, res) => {}
+module.exports.getAllTemplates = async (req, res) => {
+  try {
+    const Templates = await TemplateModel.find();
+
+    if (!Templates) {
+      throw new Error("No Templates found");
+    }
+
+    res.status(200).json({
+      message: "Templates fetched successfully",
+      Templates,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
