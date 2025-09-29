@@ -34,4 +34,6 @@ router.post(
 
 router.get("/getAll", TemplateController.getAllTemplates);
 
+router.get("/get/:id", TemplateController.getTemplate);
+
 module.exports = router;

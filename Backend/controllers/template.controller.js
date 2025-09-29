@@ -74,3 +74,24 @@ module.exports.getAllTemplates = async (req, res) => {
     });
   }
 };
+
+module.exports.getTemplate = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const Template = await TemplateModel.findById(id);
+
+    if (!Template) {
+      throw new Error("Template not found");
+    }
+
+    res.status(200).json({
+      message: "Template fetched successfully",
+      Template,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
