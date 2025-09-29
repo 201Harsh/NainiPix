@@ -27,7 +27,7 @@ const page = () => {
           setTemplates(res.data.Templates);
         }
       } catch (error: any) {
-        toast.error(error.response.data.erro, {
+        toast.error(error.response.data.error, {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
