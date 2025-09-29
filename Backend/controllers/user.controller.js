@@ -160,3 +160,24 @@ module.exports.getUserProfile = async (req, res) => {
     });
   }
 };
+
+module.exports.logoutUser = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    res.clearCookie("token");
+
+    res.status(200).json({
+      message: "Logout successful",
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
