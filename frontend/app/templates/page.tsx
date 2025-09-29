@@ -8,6 +8,7 @@ import { Flip, toast } from "react-toastify";
 interface Template {
   _id: string;
   name: string;
+  title: string;
   description: string;
   thumbnail: string;
   category: string;
