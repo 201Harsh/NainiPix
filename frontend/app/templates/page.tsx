@@ -29,8 +29,8 @@ const page = () => {
         setTemplates(res.data.Templates);
       }
     } catch (error: any) {
-      setError(error.response.data.error);
-      toast.error(error.response.data.error, {
+      setError(error.response?.data?.error || "Templates not found");
+      toast.error(error.response?.data?.error || "Templates not found", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
