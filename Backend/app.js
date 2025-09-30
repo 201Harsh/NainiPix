@@ -8,6 +8,8 @@ ConnectToDb();
 
 const USerRouter = require("./routes/user.route");
 const TemplateRouter = require("./routes/template.route");
+const ImageRouter = require("./routes/image.route");
+
 
 
 app.use(express.json());
@@ -22,5 +24,6 @@ app.use(CookieParser());
 
 app.use("/users", USerRouter);
 app.use("/template", TemplateRouter);
+app.use("/image", ImageRouter);
 
 module.exports = app;
