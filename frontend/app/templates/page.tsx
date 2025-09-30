@@ -16,32 +16,38 @@ interface Template {
 }
 const page = () => {
   const [Templates, setTemplates] = useState<Template[]>([]);
-  const [Error, setError] = useState("")
+  const [Error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const Router = useRouter();
 
-  useEffect(() => {
-    const GetAllTemplates = async () => {
-      try {
-        const res = await AxiosInstance.get("/template/getAll");
+  const GetAllTemplates = async () => {
+    try {
+      setIsLoading(true);
+      const res = await AxiosInstance.get("/template/getAll");
 
-        if (res.status === 200) {
-          setTemplates(res.data.Templates);
-        }
-      } catch (error: any) {
-        setError(error.response.data.error)
-        toast.error(error.response.data.error, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Flip,
-        });
+      if (res.status === 200) {
+        setTemplates(res.data.Templates);
       }
-    };
+    } catch (error: any) {
+      setError(error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Flip,
+      });
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+    }
+  };
+  useEffect(() => {
     GetAllTemplates();
   }, []);
 
@@ -49,63 +55,158 @@ const page = () => {
     Router.push(`/templates/${id}`);
   };
 
+  const getCategoryColor = (category: string) => {
+    switch (category.toLowerCase()) {
+      case "free":
+        return "from-emerald-500 to-green-500";
+      case "premium":
+        return "from-amber-500 to-orange-500";
+      case "pro":
+        return "from-purple-500 to-pink-500";
+      default:
+        return "from-blue-500 to-cyan-500";
+    }
+  };
+
+  const getCategoryBadge = (category: string) => {
+    switch (category.toLowerCase()) {
+      case "free":
+        return "bg-gradient-to-r from-emerald-500 to-green-500";
+      case "premium":
+        return "bg-gradient-to-r from-amber-500 to-orange-500";
+      case "pro":
+        return "bg-gradient-to-r from-purple-500 to-pink-500";
+      default:
+        return "bg-gradient-to-r from-blue-500 to-cyan-500";
+    }
+  };
+
   return (
     <>
       <Header />
       <div className="relative w-full bg-gray-950 pt-24 min-h-screen">
         <div className="w-full px-8 py-4">
-          <div className="md:w-1/2 w-full md:mx-auto flex p-4 items-center justify-center">
-            <h1 className="text-white text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-center font-Antonio capitalize">
-              Choose <span className="text-pink-400">Template</span> and Start{" "}
-              <span className="text-sky-500">Editing/Creating</span>
+          <div className="md:w-1/2 w-full md:mx-auto flex flex-col text-center p-4 items-center justify-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-pink-500 to-violet-500 rounded-full mb-6">
+              <span className="text-2xl">🎨</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 font-Antonio">
+              Choose Your{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-violet-400">
+                Template
+              </span>
             </h1>
+            <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto font-inter font-semibold">
+              Select from our professionally designed templates and start
+              creating stunning visuals with AI-powered tools
+            </p>
           </div>
           {/* Cards go here */}
-          <div className="max-w-7xl 2xl:max-w-full mx-auto">
-            {Error && <h1 className="text-white text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl text-center font-Antonio capitalize mt-44">{Error}</h1>}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 justify-center">
-              {Templates.map((c, idx) => {
-                const model_check =
-                  c.category === "free" ? "bg-blue-900" : "bg-pink-900";
-                return (
-                  <div
-                    key={idx}
-                    onClick={() => handleRouting(c._id)}
-                    className="flex cursor-pointer flex-col mt-10 backdrop-blur-sm overflow-hidden shadow-lg shadow-pink-30 hover:scale-95 transition-all duration-150 ease-linear hover:border border-gray-500 text-white rounded-2xl p-2 bg-gradient-to-tl from-blue-900/30
-                     to-pink-900/50"
-                  >
-                    {/* Image Section */}
-                    <img
-                      src={c.thumbnail}
-                      alt="thumbnail"
-                      className="w-full object-cover rounded-t-lg h-48"
-                    />
-                    {/* Text Section */}
-                    <div className="rounded-lg p-4">
-                      <h2 className="text-xl font-semibold mb-2">{c.title}</h2>
-                      <p className="text-gray-300 mb-2">{c.description}</p>
-                      <p className="text-gray-300 mb-2">
-                        Category: {c.category}
-                      </p>
-                    </div>
-                    {/* Model Section */}
-                    <div className="rounded-lg p-4">
-                      <p
-                        className={`text-gray-300 mb-2 flex items-center justify-center font-bold px-5 py-3 ${model_check}`}
-                      >
-                        Model: {c.category}
-                      </p>
-                    </div>
-                    {/* Button Section */}
-                    <div className="rounded-lg p-2 md:flex hidden">
-                      <button className="bg-blue-600 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
-                        Use Template
-                      </button>
+          <div className="max-w-7xl 2xl:max-w-full mx-auto mt-8">
+            {/* Loading State */}
+            {isLoading && (
+              <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+                {[...Array(10)].map((_, idx) => (
+                  <div key={idx} className="animate-pulse">
+                    <div className="bg-gray-800/50 rounded-2xl h-96">
+                      <div className="h-48 bg-gray-700 rounded-t-2xl"></div>
+                      <div className="p-6 space-y-4">
+                        <div className="h-4 bg-gray-700 rounded w-3/4"></div>
+                        <div className="h-3 bg-gray-700 rounded w-full"></div>
+                        <div className="h-3 bg-gray-700 rounded w-2/3"></div>
+                        <div className="h-8 bg-gray-700 rounded w-1/2"></div>
+                      </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            )}
+
+            {/* Error State */}
+            {Error && !isLoading && (
+              <div className="max-w-2xl mx-auto text-center md:mt-10 mt-16">
+                <div className="w-24 h-24 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <span className="text-4xl">😔</span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                  Oops! Something went wrong
+                </h2>
+                <p className="text-gray-400 text-lg mb-8">{Error}</p>
+                <button
+                  onClick={GetAllTemplates}
+                  className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-200"
+                >
+                  Try Again
+                </button>
+              </div>
+            )}
+            {!isLoading && !Error && (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 justify-center">
+                {Templates.map((template, idx) => (
+                  <div
+                    key={template._id}
+                    onClick={() => handleRouting(template._id)}
+                    className="group relative bg-gray-800/30 backdrop-blur-lg rounded-2xl border border-white/10 overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:border-white/20 hover:shadow-2xl hover:shadow-violet-500/10"
+                  >
+                    {/* Category Badge */}
+                    <div className="absolute top-4 left-4 z-10">
+                      <span
+                        className={`${getCategoryBadge(
+                          template.category
+                        )} text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm`}
+                      >
+                        {template.category.toUpperCase()}
+                      </span>
+                    </div>
+
+                    {/* Image Section */}
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={template.thumbnail}
+                        alt={template.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
+                    </div>
+
+                    {/* Content Section */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-white mb-3 line-clamp-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-violet-400 transition-all duration-300">
+                        {template.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-2">
+                        {template.description}
+                      </p>
+
+                      {/* Model Indicator */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-2">
+                          <div
+                            className={`w-3 h-3 rounded-full bg-gradient-to-r ${getCategoryColor(
+                              template.category
+                            )}`}
+                          ></div>
+                          <span className="text-gray-400 text-sm">
+                            {template.category} Model
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Action Button */}
+                      <button className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 group-hover:shadow-lg group-hover:shadow-violet-500/25 flex items-center justify-center space-x-2">
+                        <span>Use Template</span>
+                        <span className="group-hover:translate-x-1 transition-transform">
+                          →
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* Hover Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
