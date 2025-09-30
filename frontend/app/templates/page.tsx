@@ -88,7 +88,7 @@ const page = () => {
         <div className="w-full px-8 py-4">
           <div className="md:w-1/2 w-full md:mx-auto flex flex-col text-center p-4 items-center justify-center">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-pink-500 to-violet-500 rounded-full mb-6">
-              <span className="text-2xl">🎨</span>
+              <span className="text-3xl">🎨</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 font-Antonio">
               Choose Your{" "}
@@ -171,9 +171,16 @@ const page = () => {
 
                     {/* Content Section */}
                     <div className="p-6">
-                      <h3 className="text-xl font-bold text-white mb-3 line-clamp-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-400 group-hover:to-violet-400 transition-all duration-300">
+                      <h1
+                        className={`text-2xl font-bold font-Antonio text-center bg-clip-text text-transparent ${getCategoryBadge(
+                          template.category
+                        )} mb-4`}
+                      >
+                        {template.name}
+                      </h1>
+                      <p className="text-sm md:text-base font-inter font-semibold text-white mb-3 line-clamp-1">
                         {template.title}
-                      </h3>
+                      </p>
                       <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-2">
                         {template.description}
                       </p>
@@ -200,9 +207,6 @@ const page = () => {
                         </span>
                       </button>
                     </div>
-
-                    {/* Hover Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                   </div>
                 ))}
               </div>
