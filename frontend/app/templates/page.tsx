@@ -16,6 +16,8 @@ interface Template {
 }
 const page = () => {
   const [Templates, setTemplates] = useState<Template[]>([]);
+  const [SearchQuery, setSearchQuery] = useState("");
+  const [FilteredTemplates, setFilteredTemplates] = useState<Template[]>([]);
   const [Error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const Router = useRouter();
@@ -101,6 +103,58 @@ const page = () => {
               creating stunning visuals with AI-powered tools
             </p>
           </div>
+
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto mt-8 mb-8 px-4">
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 to-violet-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <svg
+                    className="h-5 w-5 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search templates..."
+                  value={SearchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 bg-gray-800/50 backdrop-blur-lg border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-transparent transition-all duration-200"
+                />
+                {SearchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                  >
+                    <svg
+                      className="h-5 w-5 text-gray-400 hover:text-gray-300 transition-colors"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Cards go here */}
           <div className="max-w-7xl 2xl:max-w-full mx-auto mt-8">
             {/* Loading State */}
