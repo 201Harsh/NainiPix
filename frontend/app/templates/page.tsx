@@ -186,14 +186,14 @@ const page = () => {
                               template.category
                             )}`}
                           ></div>
-                          <span className="text-gray-400 text-sm">
+                          <span className="text-gray-400 text-sm capitalize">
                             {template.category} Model
                           </span>
                         </div>
                       </div>
 
                       {/* Action Button */}
-                      <button className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 group-hover:shadow-lg group-hover:shadow-violet-500/25 flex items-center justify-center space-x-2">
+                      <button className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 group-hover:shadow-lg group-hover:shadow-violet-500/25 flex items-center justify-center space-x-2 cursor-pointer">
                         <span>Use Template</span>
                         <span className="group-hover:translate-x-1 transition-transform">
                           →
