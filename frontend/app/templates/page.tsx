@@ -44,7 +44,7 @@ const page = () => {
     } finally {
       setTimeout(() => {
         setIsLoading(false);
-      }, 200);
+      }, 600);
     }
   };
   useEffect(() => {
