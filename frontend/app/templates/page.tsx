@@ -4,6 +4,7 @@ import Header from "../Components/Header";
 import { useRouter } from "next/navigation";
 import AxiosInstance from "@/config/Axios";
 import { Flip, toast } from "react-toastify";
+import Debouncing from "../hooks/Debouncing";
 
 interface Template {
   _id: string;
@@ -21,6 +22,19 @@ const page = () => {
   const [Error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const Router = useRouter();
+
+  const DebounceSerach = Debouncing(SearchQuery, 550);
+
+  useEffect(() => {
+    if (DebounceSerach.trim()) {
+      const filtered = Templates.filter((t) =>
+        t.name.toLowerCase().includes(DebounceSerach.toLowerCase())
+      );
+      setFilteredTemplates(filtered);
+    } else {
+      setFilteredTemplates(Templates);
+    }
+  }, [DebounceSerach, Templates]);
 
   const GetAllTemplates = async () => {
     try {
@@ -194,7 +208,96 @@ const page = () => {
                 </button>
               </div>
             )}
-            {!isLoading && !Error && (
+            {!isLoading && !Error && SearchQuery && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 justify-center">
+                  {FilteredTemplates.map((template, idx) => (
+                    <div
+                      key={template._id}
+                      onClick={() => handleRouting(template._id)}
+                      className="group relative bg-gray-800/30 backdrop-blur-lg rounded-2xl border border-white/10 overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:border-white/20 hover:shadow-2xl hover:shadow-violet-500/10"
+                    >
+                      {/* Category Badge */}
+                      <div className="absolute top-4 left-4 z-10">
+                        <span
+                          className={`${getCategoryBadge(
+                            template.category
+                          )} text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm`}
+                        >
+                          {template.category.toUpperCase()}
+                        </span>
+                      </div>
+
+                      {/* Image Section */}
+                      <div className="relative h-48 overflow-hidden">
+                        <img
+                          src={template.thumbnail}
+                          alt={template.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
+                      </div>
+
+                      {/* Content Section */}
+                      <div className="p-6">
+                        <h1
+                          className={`text-2xl font-bold font-Antonio text-center bg-clip-text text-transparent ${getCategoryBadge(
+                            template.category
+                          )} mb-4`}
+                        >
+                          {template.name}
+                        </h1>
+                        <p className="text-sm md:text-base font-inter font-semibold text-white mb-3 line-clamp-1">
+                          {template.title}
+                        </p>
+                        <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-2">
+                          {template.description}
+                        </p>
+
+                        {/* Model Indicator */}
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center space-x-2">
+                            <div
+                              className={`w-3 h-3 rounded-full bg-gradient-to-r ${getCategoryColor(
+                                template.category
+                              )}`}
+                            ></div>
+                            <span className="text-gray-400 text-sm capitalize">
+                              {template.category} Model
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Action Button */}
+                        <button className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 group-hover:shadow-lg group-hover:shadow-violet-500/25 flex items-center justify-center space-x-2 cursor-pointer">
+                          <span>Use Template</span>
+                          <span className="group-hover:translate-x-1 transition-transform">
+                            →
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {!FilteredTemplates.length && (
+                  <div className="max-w-2xl w-full mx-auto text-center md:mt-10 mt-16">
+                    <div className="w-24 h-24 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <span className="text-4xl">😔</span>
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 font-Antonio">
+                      Oops! No Templates Found.
+                    </h2>
+                    <p className="text-gray-400 text-lg mb-8 font-inter">
+                      We couldn't find any templates
+                      <span className="text-pink-500 ml-2 font-bold">
+                        {SearchQuery}
+                      </span>
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
+            {!isLoading && !SearchQuery && !Error && (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 justify-center">
                 {Templates.map((template, idx) => (
                   <div
