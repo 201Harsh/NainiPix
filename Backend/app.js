@@ -8,7 +8,7 @@ ConnectToDb();
 
 const USerRouter = require("./routes/user.route");
 const TemplateRouter = require("./routes/template.route");
-const ImageRouter = require("./routes/image.route");
+const ImageRouter = require("./routes/Image.route");
 
 
 
