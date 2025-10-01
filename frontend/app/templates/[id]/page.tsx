@@ -217,13 +217,13 @@ const Page = () => {
                   </h3>
 
                   {/* Blurred Box */}
-                  <div className="bg-gray-800/50 pointer-events-none select-none rounded-xl p-4 border border-white/10 relative">
-                    <p className="text-gray-200 italic blur-[3px]">
-                      "{Template.prompt.slice(0, 20)}"...
+                  <div className="bg-gray-800/50 select-none rounded-xl cursor-not-allowed p-4 border border-white/10 relative">
+                    <p className="text-gray-200 italic blur-[2px]">
+                      "{Template.prompt.slice(0, 50)}"...
                     </p>
 
                     {/* Overlay Message */}
-                    <div className="absolute pointer-events-none z-10 inset-0 flex items-center justify-center bg-black/60 rounded-xl">
+                    <div className="absolute z-10 inset-0 flex items-center justify-center bg-black/60 rounded-xl">
                       <p className="text-yellow-400 font-semibold text-sm">
                         🔒 Buy Subscription to Unlock Prompt
                       </p>
